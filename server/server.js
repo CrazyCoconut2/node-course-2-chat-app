@@ -18,12 +18,31 @@ var io=socketIO(server); // we pass in parameters the server we wanna use
 //Emitting and communicating events
 
 // built in events
-io.on('connection', (socket) => {
+io.on('connection', (socket) =>{
     console.log('New user connected.');
+    socket.emit("newEmail", {
+        from: 'Mike@gmail.com',
+        text: "hello"
+    });
 
     socket.on('disconnect', () => {
         console.log('User was disconnected.');
+    });
+    socket.emit('newMessage', {
+        from: 'chewbaca',
+        text: '1,2,3'
     })
+    socket.on('createMessage', (message) => {
+        console.log('YABADABADOU');
+        console.log(message);
+    });
+
+    socket.on('createEmail', (newEmail) => {
+        console.log('create Email');
+        console.log(newEmail);
+    });
+
+   
 });  
 
 app.use(express.static(publicPath));
