@@ -25,7 +25,15 @@ io.on('connection', (socket) =>{
         text: "hello"
     });
 
-    
+    socket.emit('newMessage', {
+        from: 'Admin',
+        text: 'welcome to the chat app'
+    });
+    socket.broadcast.emit('newMessage', {
+        from: 'Admin',
+        text: 'New user joined',
+        createdAt: new Date().getTime()
+    })
     //Socket.emit emits an event to a single connection
     // io.emit emits a message to every connection
 
@@ -41,6 +49,12 @@ io.on('connection', (socket) =>{
             text : message.text,
             createdAt: new Date().getTime()
         });
+        // BROADCASTING
+        // socket.broadcast.emit('newMessage', {
+        //     from: message.from,
+        //     text: message.text,
+        //     createdAt : new Date().getTime()
+        // });
     });
 
     socket.on('disconnect', () => {
