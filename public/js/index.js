@@ -4,16 +4,16 @@
   socket.on('connect', function() {
       console.log('Connected to server.');
       // we emit an email right after connecting
-      socket.emit('createMessage', {
-        from:"David",
-        text:"James."
-    });
-
-      socket.emit('createEmail', {
-          to:"billyBob@gmail.com",
-          text:"Hi billy."
-      });
+      // socket.emit('createMessage', {
+      //   from:"David",
+      //   text:"James."
+      // });
       
+
+      // socket.emit('createEmail', {
+      //     to:"billyBob@gmail.com",
+      //     text:"Hi billy."
+      // });
       
   });
 
@@ -21,11 +21,11 @@
       console.log('Disconnected from server.');
   });
 
-  socket.on('newEmail',  function(email) {
-    console.log("New email! ");
-    console.log(email);
-  });
+  // socket.on('newEmail',  function(email) {
+  //   console.log("New email! ");
+  //   console.log(email);
+  // });
 
-  socket.on('newMessage', function() {
-    console.log('newMessage');
+  socket.on('newMessage', function(message) {
+    console.log(message);
   });

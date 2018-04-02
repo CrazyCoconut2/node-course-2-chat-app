@@ -25,22 +25,32 @@ io.on('connection', (socket) =>{
         text: "hello"
     });
 
+    
+    //Socket.emit emits an event to a single connection
+    // io.emit emits a message to every connection
+
+    // socket.emit('newMessage', {
+    //     from: 'chewbaca',
+    //     text: '1,2,3'
+    // })
+
+    socket.on('createMessage', (message) => {
+        console.log(message);
+        io.emit('newMessage', {
+            from : message.from,
+            text : message.text,
+            createdAt: new Date().getTime()
+        });
+    });
+
     socket.on('disconnect', () => {
         console.log('User was disconnected.');
     });
-    socket.emit('newMessage', {
-        from: 'chewbaca',
-        text: '1,2,3'
-    })
-    socket.on('createMessage', (message) => {
-        console.log('YABADABADOU');
-        console.log(message);
-    });
 
-    socket.on('createEmail', (newEmail) => {
-        console.log('create Email');
-        console.log(newEmail);
-    });
+    // socket.on('createEmail', (newEmail) => {
+    //     console.log('create Email');
+    //     console.log(newEmail);
+    // });
 
    
 });  
