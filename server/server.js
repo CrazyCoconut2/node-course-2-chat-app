@@ -22,24 +22,23 @@ var io=socketIO(server); // we pass in parameters the server we wanna use
 // built in events
 io.on('connection', (socket) =>{
     console.log('New user connected.');
-    socket.emit("newEmail", {
-        from: 'Mike@gmail.com',
-        text: "hello"
-    });
+    // socket.emit("newEmail", {
+    //     from: 'Mike@gmail.com',
+    //     text: "hello"
+    // });
 
     socket.emit('newMessage', generateMessage('Admin', 'Welcome to the chat.'));
-    socket.broadcast.emit('newMessage', generateMessage('Admin', 'New user connected.'))
+    socket.broadcast.emit('newMessage', generateMessage('Admin', 'New user connected!'))
     //Socket.emit emits an event to a single connection
     // io.emit emits a message to every connection
-
-    // socket.emit('newMessage', {
-    //     from: 'chewbaca',
-    //     text: '1,2,3'
-    // })
-
-    socket.on('createMessage', (message) => {
+    // Socket.broadcast will send the message to everybody
+    // except the specific socket that uses broadcast
+    
+    socket.on('createMessage', (message, callback) => {
         console.log(message);
+        // io.emit eemits the message to everybody
         io.emit('newMessage', generateMessage(message.from, message.text));
+        callback('This is from the server.');
         // BROADCASTING
         // socket.broadcast.emit('newMessage', {
         //     from: message.from,
@@ -51,11 +50,6 @@ io.on('connection', (socket) =>{
     socket.on('disconnect', () => {
         console.log('User was disconnected.');
     });
-
-    // socket.on('createEmail', (newEmail) => {
-    //     console.log('create Email');
-    //     console.log(newEmail);
-    // });
 
    
 });  
