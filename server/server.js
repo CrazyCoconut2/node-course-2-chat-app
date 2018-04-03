@@ -3,7 +3,7 @@ const http = require("http");
 const express = require("express");
 const socketIO = require("socket.io");
 
-const {generateMessage} = require('./utils/message.js');
+const {generateMessage,generateLocationMessage} = require('./utils/message.js');
 
 // heroku app :  https://pumpkin-custard-64046.herokuapp.com/
 // heroku git : https://git.heroku.com/pumpkin-custard-64046.git
@@ -33,7 +33,7 @@ io.on('connection', (socket) =>{
     // io.emit emits a message to every connection
     // Socket.broadcast will send the message to everybody
     // except the specific socket that uses broadcast
-    
+
     socket.on('createMessage', (message, callback) => {
         console.log(message);
         // io.emit eemits the message to everybody
@@ -46,6 +46,10 @@ io.on('connection', (socket) =>{
         //     createdAt : new Date().getTime()
         // });
     });
+
+    socket.on('createLocationMessage', (coords) =>{
+        io.emit('newLocationMessage', generateLocationMessage('Admin', coords.latitude, coords.longitude));
+    })
 
     socket.on('disconnect', () => {
         console.log('User was disconnected.');
